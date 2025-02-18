@@ -2,14 +2,18 @@ let gamePattern = [];
 let userClickedPattern = [];
 let buttonColors = ["red", "blue", "green", "yellow"];
 let gameStarted = false;
-
+let level = 0;
+let showLevel = document.getElementById("level-title");
 function nextSequence() {
+  userClickedPattern = [];
   let randomNumber = Math.floor(Math.random() * 4);
   let randomChosenColor = buttonColors[randomNumber];
   gamePattern.push(randomChosenColor);
   let selectedBtn = document.getElementById(`${randomChosenColor}`);
   flashButton(selectedBtn);
   playSound(randomChosenColor);
+  level++;
+  showLevel.textContent = `Level ${level}`;
 }
 
 let allBtn = document.querySelectorAll(".btn");
@@ -20,6 +24,7 @@ allBtn.forEach((btn) => {
 //for starting game
 document.addEventListener("keydown", () => {
   if (!gameStarted) {
+    showLevel.textContent = `Level ${level}`;
     nextSequence();
     gameStarted = true;
   }
@@ -30,12 +35,32 @@ function handleClick() {
   userClickedPattern.push(userChosenColor);
   playSound(userChosenColor);
   animatePress(userChosenColor);
+  checkAnswer(userClickedPattern.length - 1);
+}
+//For checking answer
+function checkAnswer(currentLevel) {
+  if (gamePattern[currentLevel] === userClickedPattern[currentLevel]) {
+    console.log("success");
+    if (gamePattern.length === userClickedPattern.length) {
+      setTimeout(function () {
+        nextSequence();
+      }, 1000);
+    }
+  } else {
+    let gameoverSound = new Audio("./sounds/wrong.mp3");
+    showLevel.textContent = "Game Over, Press Any Key to Restart";
+    gameoverSound.play();
+    document.querySelector("body").classList.add("game-over");
+    setTimeout(() => {
+      document.querySelector("body").classList.remove("game-over");
+    }, 200);
+  }
 }
 
 //animation on btn pressed
 function animatePress(currentColor) {
   document.getElementById(`${currentColor}`).classList.add("pressed");
-  setInterval(() => {
+  setTimeout(() => {
     document.getElementById(`${currentColor}`).classList.remove("pressed");
   }, 100);
 }
