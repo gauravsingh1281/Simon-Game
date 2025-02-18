@@ -3,12 +3,13 @@ let userClickedPattern = [];
 let buttonColors = ["red", "blue", "green", "yellow"];
 
 function nextSequence() {
-  return Math.floor(Math.random() * 4);
+  let randomNumber = Math.floor(Math.random() * 4);
+  let randomChosenColor = buttonColors[randomNumber];
+  gamePattern.push(randomChosenColor);
+  let selectedBtn = document.getElementById(`${randomChosenColor}`);
+  flashButton(selectedBtn);
+  playSound(randomChosenColor);
 }
-
-let randomNumber = nextSequence();
-let randomChosenColor = buttonColors[randomNumber];
-gamePattern.push(randomChosenColor);
 
 let allBtn = document.querySelectorAll(".btn");
 allBtn.forEach((btn) => {
@@ -18,5 +19,25 @@ allBtn.forEach((btn) => {
 function handleClick() {
   let userChosenColor = this.getAttribute("id");
   userClickedPattern.push(userChosenColor);
-  console.log(userClickedPattern);
+  playSound(userChosenColor);
+}
+
+// Flash animation on btn
+function flashButton(button) {
+  button.style.opacity = "0";
+  setTimeout(() => {
+    button.style.opacity = "1";
+    setTimeout(() => {
+      button.style.opacity = "0";
+      setTimeout(() => {
+        button.style.opacity = "1";
+      }, 100);
+    }, 100);
+  }, 100);
+}
+
+// Play audio
+function playSound(name) {
+  let sound = new Audio(`./sounds/${name}.mp3`);
+  sound.play();
 }
