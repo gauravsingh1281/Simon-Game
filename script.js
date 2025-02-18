@@ -4,6 +4,8 @@ let buttonColors = ["red", "blue", "green", "yellow"];
 let gameStarted = false;
 let level = 0;
 let showLevel = document.getElementById("level-title");
+
+// For next level
 function nextSequence() {
   userClickedPattern = [];
   let randomNumber = Math.floor(Math.random() * 4);
@@ -47,16 +49,22 @@ function checkAnswer(currentLevel) {
       }, 1000);
     }
   } else {
-    let gameoverSound = new Audio("./sounds/wrong.mp3");
     showLevel.textContent = "Game Over, Press Any Key to Restart";
-    gameoverSound.play();
+    playSound("wrong");
     document.querySelector("body").classList.add("game-over");
     setTimeout(() => {
       document.querySelector("body").classList.remove("game-over");
     }, 200);
+    startOver();
   }
 }
 
+// for restart the game
+function startOver() {
+  level = 0;
+  gamePattern = [];
+  gameStarted = false;
+}
 //animation on btn pressed
 function animatePress(currentColor) {
   document.getElementById(`${currentColor}`).classList.add("pressed");
