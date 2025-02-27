@@ -23,7 +23,7 @@ allBtn.forEach((btn) => {
   btn.addEventListener("click", handleClick);
 });
 
-//for starting game
+// For starting game
 document.addEventListener("keydown", () => {
   if (!gameStarted) {
     showLevel.textContent = `Level ${level}`;
@@ -39,7 +39,7 @@ function handleClick() {
   animatePress(userChosenColor);
   checkAnswer(userClickedPattern.length - 1);
 }
-//For checking answer
+// For checking answer
 function checkAnswer(currentLevel) {
   if (gamePattern[currentLevel] === userClickedPattern[currentLevel]) {
     console.log("success");
@@ -59,13 +59,13 @@ function checkAnswer(currentLevel) {
   }
 }
 
-// for restart the game
+// For restart the game
 function startOver() {
   level = 0;
   gamePattern = [];
   gameStarted = false;
 }
-//animation on btn pressed
+// Animation on btn pressed
 function animatePress(currentColor) {
   document.getElementById(`${currentColor}`).classList.add("pressed");
   setTimeout(() => {
