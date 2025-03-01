@@ -24,13 +24,20 @@ allBtn.forEach((btn) => {
 });
 
 // For starting game
-document.addEventListener("keydown", () => {
+if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+  document.addEventListener("click", startGame);
+} else {
+  document.addEventListener("keydown", startGame);
+}
+
+function startGame() {
   if (!gameStarted) {
     showLevel.textContent = `Level ${level}`;
     nextSequence();
     gameStarted = true;
   }
-});
+}
+
 // Handle user click
 function handleClick() {
   let userChosenColor = this.getAttribute("id");
